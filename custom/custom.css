@@ -1,0 +1,47 @@
+/* Insert Your Custom CSS Here */
+.mega-box-image img{
+    border-radius: 30px;
+    vertical-align: top;
+
+}
+.vd_status-widget .menu-value {
+	margin-left: 5px;
+	margin-top: 10px;
+    line-height: 40px;
+    font-size: 28px;
+	}
+	
+ .vd_panel-menu .blink{
+	 color: white;
+		animation: blink 2s linear infinite;
+	}
+	
+	 @keyframes blink{
+		0%{opacity: 0;}
+		50%{opacity: .5;}
+		100%{opacity: 1;}
+	}	
+	 .customblackshade{
+	color: #BABABA;
+    background: rgba(0,0,0,0.6);
+    border-color: rgba(0,0,0,0.1);
+    height: 25px;
+    line-height: 24px;
+    width: 25px;
+	text-align: center;
+	 }
+header .vd_top-nav .vd_panel-header .logo a {
+	width: 154px !important;
+	margin-top : 0px !important;
+}	 
+.vd_nav-width {
+	padding-left: 0px !important;
+
+}
+.content-chat .list-wrapper>li {
+	margin-left: 0px !important;
+	
+}
+.navbar-tabs-menu {
+	margin-left: 0px !important;
+}
