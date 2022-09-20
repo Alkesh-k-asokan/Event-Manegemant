@@ -1,3 +1,15 @@
+<?php
+$error = $susses = NULL;
+if(isset($_GET["execution-status"])){
+$result = $_GET["execution-status"];
+if($result == 'true'){
+  $susses = "Employee have been added";
+}else{
+  $error = "Failed to add employee";
+}
+$result = NULL;
+}
+?>
 <!DOCTYPE html>
 <html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -37,11 +49,11 @@
 </div>
             </div>
           </div>
-          <div class="vd_title-section clearfix">
+         <!-- <div class="vd_title-section clearfix">
             <div class="vd_panel-header">
               <h1>Employee Creation Form </h1>
-<!--              <small class="subtitle">Form validation using jQuery Validation: <a href="http://jqueryvalidation.org/">http://jqueryvalidation.org</a>/</small> </div> -->
-          </div>
+              <small class="subtitle">Form validation using jQuery Validation: <a href="http://jqueryvalidation.org/">http://jqueryvalidation.org</a>/</small> </div> 
+          </div> -->
           <div class="vd_content-section clearfix">
 
             <!-- Panel Widget -->
@@ -49,8 +61,9 @@
             <div class="panel widget light-widget">
               <div class="panel-heading no-title"> </div>
               <div class="panel-body">
-                <h2 class="mgbt-xs-20">New Employee Form</h2>
-                <form class="form-horizontal"  action="#" role="form" id="register-form-2">
+                <h2 class="mgbt-xs-20">Add New Employee</h2>
+                <form class="form-horizontal"  action="classes/functions.php" method="POST" role="form" id="register-form-2">
+                
                   <div class="alert alert-danger vd_hidden">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="icon-cross"></i></button>
                     <span class="vd_alert-icon"><i class="fa fa-exclamation-circle vd_red"></i></span><strong>Oh snap!</strong> Change a few things up and try submitting again. </div>
@@ -63,7 +76,7 @@
                         <label class="control-label">Name<span class="vd_red">*</span></label>
                       </div>
                       <div class="vd_input-wrapper" id="first-name-input-wrapper"> <span class="menu-icon"> <i class="fa fa-user"></i> </span>
-                        <input type="text" placeholder="Enter your Name" class="required" required name="firstname" id="name">
+                        <input type="text" placeholder="Enter your Name" class="required" required name="name" id="name">
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -76,7 +89,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group ">
+                  <div class="form-group">
                     <div class="col-md-5">
                       <div class="label-wrapper">
                         <label class="control-label">Secondary Phone </label>
@@ -90,7 +103,7 @@
                         <label class="control-label">Designation <span class="vd_red">*</span></label>
                       </div>
                       <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa fa-briefcase"></i> </span>
-                        <input type="text" placeholder="Enter you Designation" class="required" required  name="desingnation" id="desingnation">
+                        <input type="text" placeholder="Enter you Designation" class="required" required  name="designation" id="designation">
                       </div>
                     </div>
                     <div class="col-md-3">
@@ -98,7 +111,7 @@
                         <label class="control-label">Blood Group <span class="vd_red">*</span></label></label>
                       </div>
                       <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa icon-droplet"></i> </span>
-                        <input type="text" placeholder="Enter your Blood Group" class="required" required  name="country" id="country">
+                        <input type="text" placeholder="Enter your Blood Group" class="required" required  name="blood_group" id="blood_group">
                       </div>
                     </div>
                   </div>
@@ -108,7 +121,7 @@
                         <label class="control-label">Address <span class="vd_red">*</span></label>
                       </div>
                       <div class="vd_input-wrapper" id="website-input-wrapper"> <span class="menu-icon"> <i class="fa fa-home"></i> </span>
-                        <input type="text" placeholder="Enter your Home Address" class=""  name="website" id="address">
+                        <input type="text" placeholder="Enter your Home Address" class=""  name="address" id="address">
                       </div>
                     </div>
                   </div>
@@ -135,8 +148,9 @@
                   <div id="vd_login-error" class="alert alert-danger hidden"><i class="fa fa-exclamation-circle fa-fw"></i> Please fill the necessary field </div>
                   <div class="form-group">
                     <div class="col-md-12 mgbt-xs-5">
-                      <button class="btn vd_bg-green vd_white" type="submit" id="submit-register" name="submit-register">Register</button>
+                      <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit" value="submit">Register</button>
                     </div>
+                    <div class="col-md-12 mgbt-xs-5">
                   </div>
                 </form>
               </div>
@@ -330,12 +344,12 @@ $(document).ready(function() {
 				$(element).removeClass('vd_bd-red');
             },
 
-            submitHandler: function (form) {
-					success_register_2.fadeIn(500);
-					error_register_2.fadeOut(500);
-					scrollTo(form_register_2,-100);
+          //   submitHandler: function (form) {
+					// success_register_2.fadeIn(500);
+					// error_register_2.fadeOut(500);
+					// scrollTo(form_register_2,-100);
 
-            }
+          //   }
         });
 	
 	

@@ -36,3 +36,4 @@ class DB {
         return $result;
         }
 }
+?>
