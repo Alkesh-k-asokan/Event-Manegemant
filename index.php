@@ -131,13 +131,15 @@ if (isset($_POST["login"]) == "submit" && $_SERVER["REQUEST_METHOD"] == "POST") 
                           </div>
                           <div class="col-md-12">
                             <div class="row">
-                              <div class="col-xs-6">
+                        <!--  // commenting the Remember me button
+                        <div class="col-xs-6">
                                 <div class="vd_checkbox">
                                   <input type="checkbox" id="checkbox-1" value="1">
                                   <label for="checkbox-1"> Remember me</label>
                                 </div>
-                              </div>
-                              <div class="col-xs-6 text-right">
+                              </div> -->
+                             <!-- <div class="col-xs-6 text-right"> -->
+                              <div class="col-xs-6">
                                 <div class=""> <a href="pages-forget-password.html">Forget Password? </a> </div>
                               </div>
                             </div>
