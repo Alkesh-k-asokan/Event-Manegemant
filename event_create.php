@@ -1,17 +1,24 @@
 <?php
+
+$event_type = $status = NULL;
+
+require_once "classes/db.php";
+$db = new DB();
+$sql = "SELECT  `event_type_id`,`event_type_name` FROM `event_management`.`event_type`";
+$result = $db->executeQuery($sql);
+
 $result_msg = NULL;
 if (isset($_GET["status"])) {
-  $result = $_GET["status"];
-  if ($result == '200') {
-    $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;The employee have been created' . ' </div>';
-  } elseif ($result == '417'){
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Employee creation failed.' . ' </div>';
-  }elseif ($result == '449'){
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Phone number already exists.' . ' </div>';
-  }elseif ($result == '448'){
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Email already exists.' . ' </div>';
+  $status = $_GET["status"];
+  if ($status == '200') {
+    $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;The event have been created' . ' </div>';
+  } elseif ($status == '417'){
+    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Event creation failed.' . ' </div>';
+  }elseif ($status == '450'){
+    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Already exists.' . ' </div>';
   }
-  $result = NULL;
+
+  $status = NULL;
 }
 ?>
 <!DOCTYPE html>
@@ -26,6 +33,7 @@ if (isset($_GET["status"])) {
   <meta name="author" content="Venmond">
   <!-- Set the viewport width to device width for mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"> 
   <?php
   include('view/header.php');
   ?>
@@ -45,7 +53,7 @@ if (isset($_GET["status"])) {
               <ul class="breadcrumb">
                 <li><a href="index.php">Home</a> </li>
               <!-- <li><a href="forms-elements.html">Forms</a> </li> -->
-                <li class="active">Add New Employee </li>
+                <li class="active">Add New Event </li>
               </ul>
               <div class="vd_panel-menu hidden-sm hidden-xs" data-intro="<strong>Expand Control</strong><br/>To expand content page horizontally, vertically, or Both. If you just need one button just simply remove the other button code." data-step=5 data-position="left">
                 <div data-action="remove-navbar" data-original-title="Remove Navigation Bar Toggle" data-toggle="tooltip" data-placement="bottom" class="remove-navbar-button menu"> <i class="fa fa-arrows-h"></i> </div>
@@ -66,8 +74,8 @@ if (isset($_GET["status"])) {
             <div class="panel widget light-widget">
               <div class="panel-heading no-title"> </div>
               <div class="panel-body">
-                <h2 class="mgbt-xs-20">Add New Employee</h2>
-                <form class="form-horizontal" action="classes/functions.php" method="POST" role="form" id="register-form-2">
+                <h2 class="mgbt-xs-20">Add New Event</h2>
+                <form class="form-horizontal" action="classes/functions.php" method="POST" role="form" id="register-form-event-creation">
 
                   <div class="alert alert-danger vd_hidden">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="icon-cross"></i></button>
@@ -78,85 +86,66 @@ if (isset($_GET["status"])) {
                     <span class="vd_alert-icon"><i class="fa fa-check-circle vd_green"></i></span><strong>Well done!</strong>.
                   </div>
                   <div class="form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Name<span class="vd_red">*</span></label>
+                        <label class="control-label">Event Name<span class="vd_red">*</span></label>
                       </div>
-                      <div class="vd_input-wrapper" id="first-name-input-wrapper"> <span class="menu-icon"> <i class="fa fa-user"></i> </span>
-                        <input type="text" placeholder="Enter your Name" class="required" required name="name" id="name">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="label-wrapper">
-                        <label class="control-label">Phone Number<span class="vd_red">*</span></label>
-                      </div>
-                      <div class="vd_input-wrapper" id="last-name-input-wrapper"> <span class="menu-icon"> <i class="fa fa-user"></i> </span>
-                        <input type="text" placeholder="enter along with country code" class="required" required name="phone" id="phone">
+                      <div class="controls">
+                          <input type="text" placeholder="Event Name" class="required" required name="event-name" id="event-name">
+                          <!-- <span class="help-inline">Some hint here</span> -->
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                       <div class="label-wrapper">
-                        <label class="control-label">Secondary Phone </label>
+                        <label class="control-label">Select Event Type <span class="vd_red">*</span></label>
                       </div>
-                      <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa fa-phone"></i> </span>
-                        <input type="text" placeholder="Enter you" class="" name="sec_phone" id="sec_phone">
-                      </div>
+                      <div class="controls">
+                          <select class="width-100 required" required style="padding: 0.60em 0;" name="event-type" id="event-type">
+                          <option value="" default> select event type </option>
+                            <?php 
+                            while ($row = mysqli_fetch_array($result)) {
+                              echo '<option value ='.$row['event_type_id'].'>'.$row['event_type_name'].'</option>';
+                            }
+                            ?>
+                          </select>
+                        </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <div class="label-wrapper">
-                        <label class="control-label">Designation <span class="vd_red">*</span></label>
+                        <label class="control-label">Event Date<span class="vd_red">*</span></label>
                       </div>
-                      <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa fa-briefcase"></i> </span>
-                        <input type="text" placeholder="Enter you Designation" class="required" required name="designation" id="designation">
-                      </div>
+                      <div class="input-group">
+                            <input type="text" placeholder="Date" id="datepicker-icon" class="required" required name="event-date" id="event-date" >
+                            <span class="input-group-addon" id="datepicker-icon-trigger" data-datepicker="#datepicker-icon"><i class="fa fa-calendar"></i></span> 
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                      <div class="label-wrapper">
-                        <label class="control-label">Blood Group <span class="vd_red">*</span></label></label>
-                      </div>
-                      <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa icon-droplet"></i> </span>
-                        <input type="text" placeholder="Enter your Blood Group" class="required" required name="blood_group" id="blood_group">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
                     <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Address <span class="vd_red">*</span></label>
+                        <label class="control-label">Event Description<span class="vd_red">*</span></label></label>
                       </div>
-                      <div class="vd_input-wrapper" id="website-input-wrapper"> <span class="menu-icon"> <i class="fa fa-home"></i> </span>
-                        <input type="text" placeholder="Enter your Home Address" class="" name="address" id="address">
+                      <div class="controls">
+                          <textarea rows="3" class="width-100 required" required name="event-description" id="event-description"></textarea>
                       </div>
                     </div>
-                  </div>
-                  <div class="form-group">
                     <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Email <span class="vd_red">*</span></label>
+                        <label class="control-label">Total Points<span class="vd_red">*</span></label></label>
                       </div>
-                      <div class="vd_input-wrapper" id="email-input-wrapper"> <span class="menu-icon"> <i class="fa fa-envelope"></i> </span>
-                        <input type="email" placeholder="Email" class="required" required name="email" id="email">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-md-12">
-                      <div class="label-wrapper">
-                        <label class="control-label">Company Name</label>
-                      </div>
-                      <div class="vd_input-wrapper" id="company-input-wrapper"> <span class="menu-icon"> <i class="fa fa-briefcase"></i> </span>
-                        <input type="text" placeholder="Default value is StratAgile" class="required" value="StratAgile" name="company" id="company">
+                      <div class="controls">
+                          <input type="number" class="width-100 required" required name="event-points" id="event-points"></input>
                       </div>
                     </div>
                   </div>
+
+
                   <div id="vd_login-error" class="alert alert-danger hidden"><i class="fa fa-exclamation-circle fa-fw"></i> Please fill the necessary field </div>
                   <div><?= $result_msg; ?></div>
                   <div class="form-group">
                     <div class="col-md-12 mgbt-xs-5">
-                      <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit" value="submit-employee-create">Register</button>
+                      <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit-event-create" value="submit-event-create">Create Event</button>
                     </div>
                     <div class="col-md-12 mgbt-xs-5">
                     </div>
@@ -360,10 +349,9 @@ if (isset($_GET["status"])) {
         //   }
       });
 
-
     });
   </script>
-
+  <script type="text/javascript" src="js/date-picker.js"></script>
 </body>
 
 </html>

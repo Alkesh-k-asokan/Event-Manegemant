@@ -14,6 +14,7 @@
     <!--[if IE 7]><link type="text/css" rel="stylesheet" href="css/font-awesome-ie7.min.css"><![endif]-->
     <link href="css/font-entypo.css" rel="stylesheet" type="text/css">    
 
+    <link href="css/custom.css"  rel="stylesheet" type="text/css">
     <!-- Fonts CSS -->
     <link href="css/fonts.css"  rel="stylesheet" type="text/css">
                

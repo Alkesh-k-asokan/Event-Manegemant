@@ -1,6 +1,5 @@
 <!-- PHP Start -->
 <?php
-
 // Initialize the session
 require_once "classes/db.php";
 session_start();
@@ -10,10 +9,6 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   header("location: admin_dashboard.php");
   exit;
 }
-
-// Include config file
-
-
 // Define variables and initialize with empty values
 $user_email = $password = $fetched_username = $fetched_password = "";
 $error_msg = $temp = null;
@@ -45,17 +40,14 @@ if (isset($_POST["login"]) == "submit" && $_SERVER["REQUEST_METHOD"] == "POST") 
           header("location: admin_dashboard.php");
         }
       } else {
-        $error_msg = "Please check the UserId and Password";
+        $error_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . 'Please check the UserId and Password' . ' </div>';
         $temp = NULL;
       }
     }
   }
 }
 ?>
-
 <!-- PHP Ends -->
-
-
 <!DOCTYPE html>
 <html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -72,16 +64,11 @@ if (isset($_POST["login"]) == "submit" && $_SERVER["REQUEST_METHOD"] == "POST") 
   ?>
 </head>
 
-<body id="pages" class="full-layout no-nav-left no-nav-right  nav-top-fixed background-login responsive remove-navbar login-layout   clearfix" data-active="pages " data-smooth-scrolling="1">
+<body id="log-in-page" class="full-layout no-nav-left no-nav-right  nav-top-fixed background-login responsive remove-navbar login-layout   clearfix" data-active="pages " data-smooth-scrolling="1">
   <div class="vd_body">
-    <!-- Header Start -->
-
-    <!-- Header Ends -->
     <div class="content">
       <div class="container">
-
-        <!-- Middle Content Start -->
-
+        <!-- Log in Content Start -->
         <div class="vd_content-wrapper">
           <div class="vd_container">
             <div class="vd_content clearfix">
@@ -99,11 +86,13 @@ if (isset($_POST["login"]) == "submit" && $_SERVER["REQUEST_METHOD"] == "POST") 
                       <form class="form-horizontal" id="login-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" role="form">
                         <div class="alert alert-danger vd_hidden">
                           <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="icon-cross"></i></button>
-                          <span class="vd_alert-icon"><i class="fa fa-exclamation-circle vd_red"></i></span><strong>Oh snap!</strong> Change a few things up and try submitting again.
+                          <span class="vd_alert-icon"><i class="fa fa-exclamation-circle vd_red"></i></span><strong>Oh
+                            snap!</strong> Change a few things up and try submitting again.
                         </div>
                         <div class="alert alert-success vd_hidden">
                           <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="icon-cross"></i></button>
-                          <span class="vd_alert-icon"><i class="fa fa-check-circle vd_red"></i></span><strong>Wrong Username or password!</strong>.
+                          <span class="vd_alert-icon"><i class="fa fa-check-circle vd_red"></i></span><strong>Wrong
+                            Username or password!</strong>.
                         </div>
                         <div class="form-group  mgbt-xs-20">
                           <div class="col-md-12">
@@ -131,14 +120,14 @@ if (isset($_POST["login"]) == "submit" && $_SERVER["REQUEST_METHOD"] == "POST") 
                           </div>
                           <div class="col-md-12">
                             <div class="row">
-                        <!--  // commenting the Remember me button
-                        <div class="col-xs-6">
-                                <div class="vd_checkbox">
-                                  <input type="checkbox" id="checkbox-1" value="1">
-                                  <label for="checkbox-1"> Remember me</label>
-                                </div>
-                              </div> -->
-                             <!-- <div class="col-xs-6 text-right"> -->
+                              <!--  // commenting the Remember me button
+                          <div class="col-xs-6">
+                                  <div class="vd_checkbox">
+                                    <input type="checkbox" id="checkbox-1" value="1">
+                                    <label for="checkbox-1"> Remember me</label>
+                                  </div>
+                                </div> -->
+                              <!-- <div class="col-xs-6 text-right"> -->
                               <div class="col-xs-6">
                                 <div class=""> <a href="pages-forget-password.html">Forget Password? </a> </div>
                               </div>
@@ -151,113 +140,24 @@ if (isset($_POST["login"]) == "submit" && $_SERVER["REQUEST_METHOD"] == "POST") 
                   <!-- Panel Widget -->
                   <div class="register-panel text-center font-semibold"> <a href="pages-register.html">CREATE AN ACCOUNT<span class="menu-icon"><i class="fa fa-angle-double-right fa-fw"></i></span></a> </div>
                 </div>
-                <!-- vd_login-page -->
-
               </div>
-              <!-- .vd_content-section -->
-
             </div>
-            <!-- .vd_content -->
           </div>
-          <!-- .vd_container -->
         </div>
-        <!-- .vd_content-wrapper -->
-
-        <!-- Middle Content End -->
-
+        <!-- Log in Content End -->
       </div>
-      <!-- .container -->
     </div>
-    <!-- .content -->
-
     <!-- Footer Start -->
     <?php
     include('view/footermain.php');
     ?>
     <!-- Footer END -->
-
   </div>
   <?php
   include('view/footer.php');
   ?>
   <!-- Specific Page Scripts Put Here -->
-  <script type="text/javascript">
-    $(document).ready(function() {
-
-      "use strict";
-
-      $("#php_error_msg").fadeOut(10000);
-
-      var form_register_2 = $('#login-form');
-      var error_register_2 = $('.alert-danger', form_register_2);
-      var success_register_2 = $('.alert-success', form_register_2);
-
-      form_register_2.validate({
-        errorElement: 'div', //default input error message container
-        errorClass: 'vd_red', // default input error message class
-        focusInvalid: false, // do not focus the last invalid input
-        ignore: "",
-        rules: {
-
-          email: {
-            required: true,
-            email: true
-          },
-          password: {
-            required: true,
-            minlength: 6
-          },
-
-        },
-
-        errorPlacement: function(error, element) {
-          if (element.parent().hasClass("vd_checkbox") || element.parent().hasClass("vd_radio")) {
-            element.parent().append(error);
-          } else if (element.parent().hasClass("vd_input-wrapper")) {
-            error.insertAfter(element.parent());
-          } else {
-            error.insertAfter(element);
-          }
-        },
-
-        invalidHandler: function(event, validator) { //display error alert on form submit              
-          success_register_2.hide();
-          error_register_2.show();
-
-
-        },
-
-        highlight: function(element) { // hightlight error inputs
-          $("#php_error_msg").hide();
-          $(element).addClass('vd_bd-red');
-          $(element).parent().siblings('.help-inline').removeClass('help-inline hidden');
-          if ($(element).parent().hasClass("vd_checkbox") || $(element).parent().hasClass("vd_radio")) {
-            $(element).siblings('.help-inline').removeClass('help-inline hidden');
-          }
-
-        },
-
-        unhighlight: function(element) { // revert the change dony by hightlight
-          $(element)
-            .closest('.control-group').removeClass('error'); // set error class to the control group
-        },
-
-        success: function(label, element) {
-          label
-            .addClass('valid').addClass('help-inline hidden') // mark the current input as valid and display OK icon
-            .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
-          $(element).removeClass('vd_bd-red');
-
-
-        },
-
-
-      });
-
-
-    });
-  </script>
-
+  <script type="text/javascript" src="js/log-in-page.js"></script>
   <!-- Specific Page Scripts END -->
 </body>
 
