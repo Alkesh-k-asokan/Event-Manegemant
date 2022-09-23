@@ -4,18 +4,20 @@ $event_type = $status = NULL;
 
 require_once "classes/db.php";
 $db = new DB();
-$sql = "SELECT  `event_type_id`,`event_type_name` FROM `event_management`.`event_type`";
+$sql = "SELECT  `employee_id`,`employee_name` FROM `event_management`.`employee` WHERE `employee`.`employee_id` NOT IN (SELECT `employee_id` FROM `event_management`.`team_members`) ";
 $result = $db->executeQuery($sql);
 
 $result_msg = NULL;
 if (isset($_GET["status"])) {
   $status = $_GET["status"];
   if ($status == '200') {
-    $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;The event have been created' . ' </div>';
-  } elseif ($status == '417'){
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Event creation failed.' . ' </div>';
-  }elseif ($status == '450'){
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Already exists.' . ' </div>';
+    $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;The Team have been created and the members were added.' . ' </div>';
+  } elseif ($status == '450') {
+    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Team have been created and the members adding failed.' . ' </div>';
+  } elseif ($status == '448') {
+    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Team already exists.' . ' </div>';
+  } elseif ($status == '417') {
+    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Team creation failed.' . ' </div>';
   }
 
   $status = NULL;
@@ -33,7 +35,8 @@ if (isset($_GET["status"])) {
   <meta name="author" content="Venmond">
   <!-- Set the viewport width to device width for mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"> 
+  <link href="plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <?php
   include('view/header.php');
   ?>
@@ -52,8 +55,8 @@ if (isset($_GET["status"])) {
             <div class="vd_panel-header">
               <ul class="breadcrumb">
                 <li><a href="index.php">Home</a> </li>
-              <!-- <li><a href="forms-elements.html">Forms</a> </li> -->
-                <li class="active">Add New Event </li>
+                <!-- <li><a href="forms-elements.html">Forms</a> </li> -->
+                <li class="active">Add New Team </li>
               </ul>
               <div class="vd_panel-menu hidden-sm hidden-xs" data-intro="<strong>Expand Control</strong><br/>To expand content page horizontally, vertically, or Both. If you just need one button just simply remove the other button code." data-step=5 data-position="left">
                 <div data-action="remove-navbar" data-original-title="Remove Navigation Bar Toggle" data-toggle="tooltip" data-placement="bottom" class="remove-navbar-button menu"> <i class="fa fa-arrows-h"></i> </div>
@@ -74,7 +77,7 @@ if (isset($_GET["status"])) {
             <div class="panel widget light-widget">
               <div class="panel-heading no-title"> </div>
               <div class="panel-body">
-                <h2 class="mgbt-xs-20">Add New Event</h2>
+                <h2 class="mgbt-xs-20">Add New Team</h2>
                 <form class="form-horizontal" action="classes/functions.php" method="POST" role="form" id="register-form-event-creation">
 
                   <div class="alert alert-danger vd_hidden">
@@ -88,64 +91,46 @@ if (isset($_GET["status"])) {
                   <div class="form-group">
                     <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Event Name<span class="vd_red">*</span></label>
+                        <label class="control-label">Team Name<span class="vd_red">*</span></label>
                       </div>
                       <div class="controls">
-                          <input type="text" placeholder="Event Name" class="required" required name="event-name" id="event-name">
-                          <!-- <span class="help-inline">Some hint here</span> -->
+                        <input type="text" placeholder="Team Name" class="required" required name="team-name" id="team-name">
+                        <!-- <span class="help-inline">Some hint here</span> -->
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <div class="col-md-6">
-                      <div class="label-wrapper">
-                        <label class="control-label">Select Event Type <span class="vd_red">*</span></label>
-                      </div>
-                      <div class="controls">
-                          <select class="width-100 required" required style="padding: 0.60em 0;" name="event-type" id="event-type">
-                          <option value="" default> select event type </option>
-                            <?php 
-                            while ($row = mysqli_fetch_array($result)) {
-                              echo '<option value ='.$row['event_type_id'].'>'.$row['event_type_name'].'</option>';
-                            }
-                            ?>
-                          </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="label-wrapper">
-                        <label class="control-label">Event Date<span class="vd_red">*</span></label>
-                      </div>
-                      <div class="input-group">
-                            <input type="text" placeholder="Date" id="datepicker-icon" class="required" required name="event-date" id="event-date" >
-                            <span class="input-group-addon" id="datepicker-icon-trigger" data-datepicker="#datepicker-icon"><i class="fa fa-calendar"></i></span> 
-                        </div>
-                    </div>
                     <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Event Description<span class="vd_red">*</span></label>
+                        <label class="control-label">Team Description<span class="vd_red">*</span></label>
                       </div>
                       <div class="controls">
-                          <textarea rows="3" class="width-100 required" required name="event-description" id="event-description"></textarea>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="label-wrapper">
-                        <label class="control-label">Total Points<span class="vd_red">*</span></label></label>
-                      </div>
-                      <div class="controls">
-                          <input type="number" class="width-100 required" required name="event-points" id="event-points"></input>
+                        <textarea rows="3" class="width-100 required" required name="team-description" id="team-description"></textarea>
                       </div>
                     </div>
                   </div>
 
+                  <div class="form-group">
+                    <div class="col-md-12">
+                      <div class="label-wrapper">
+                        <label class="control-label">Select Team Members<span class="vd_red">*</span></label>
+                      </div>
+                      <select class="width-100 select required" required multiple="multiple" name="team-members[]" id="team-members">
+                        <?php
+                        while ($row = mysqli_fetch_array($result)) {
+                          echo '<option value =' . $row['employee_id'] . '>' . $row['employee_name'] . '</option>';
+                        }
+                        ?>
+                      </select>
+                    </div>
+                  </div>
 
                   <div id="vd_login-error" class="alert alert-danger hidden"><i class="fa fa-exclamation-circle fa-fw"></i> Please fill the necessary field </div>
                   <div><?= $result_msg; ?></div>
                   <div class="form-group">
                     <div class="col-md-12 mgbt-xs-5">
-                      <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit-event-create" value="submit-event-create">Create Event</button>
+                      <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit-team-create" value="submit-team-create">Create Team</button>
                     </div>
                     <div class="col-md-12 mgbt-xs-5">
                     </div>
@@ -349,9 +334,15 @@ if (isset($_GET["status"])) {
         //   }
       });
 
+
+      $('.width-100.select.required').select2({
+        placeholder: 'Select Team members'
+      });
+
     });
   </script>
   <script type="text/javascript" src="js/date-picker.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 
 </html>

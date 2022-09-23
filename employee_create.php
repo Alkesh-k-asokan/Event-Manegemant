@@ -4,11 +4,11 @@ if (isset($_GET["status"])) {
   $result = $_GET["status"];
   if ($result == '200') {
     $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;The employee have been created' . ' </div>';
-  } elseif ($result == '417'){
+  } elseif ($result == '417') {
     $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Employee creation failed.' . ' </div>';
-  }elseif ($result == '449'){
+  } elseif ($result == '449') {
     $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Phone number already exists.' . ' </div>';
-  }elseif ($result == '448'){
+  } elseif ($result == '448') {
     $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Email already exists.' . ' </div>';
   }
   $result = NULL;
@@ -44,7 +44,7 @@ if (isset($_GET["status"])) {
             <div class="vd_panel-header">
               <ul class="breadcrumb">
                 <li><a href="index.php">Home</a> </li>
-              <!-- <li><a href="forms-elements.html">Forms</a> </li> -->
+                <!-- <li><a href="forms-elements.html">Forms</a> </li> -->
                 <li class="active">Add New Employee </li>
               </ul>
               <div class="vd_panel-menu hidden-sm hidden-xs" data-intro="<strong>Expand Control</strong><br/>To expand content page horizontally, vertically, or Both. If you just need one button just simply remove the other button code." data-step=5 data-position="left">
@@ -115,7 +115,7 @@ if (isset($_GET["status"])) {
                     </div>
                     <div class="col-md-3">
                       <div class="label-wrapper">
-                        <label class="control-label">Blood Group <span class="vd_red">*</span></label></label>
+                        <label class="control-label">Blood Group <span class="vd_red">*</span></label>
                       </div>
                       <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa icon-droplet"></i> </span>
                         <input type="text" placeholder="Enter your Blood Group" class="required" required name="blood_group" id="blood_group">
@@ -158,8 +158,8 @@ if (isset($_GET["status"])) {
                     <div class="col-md-12 mgbt-xs-5">
                       <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit" value="submit-employee-create">Register</button>
                     </div>
-                    <div class="col-md-12 mgbt-xs-5">
-                    </div>
+                    <div class="col-md-12 mgbt-xs-5"></div>
+                  </div>
                 </form>
               </div>
             </div>

@@ -31,7 +31,7 @@ class DB {
     	// ----- function to execute Query from a table------
 	function executeQuery($query){
         $con = $this->connect();
-        $result = mysqli_query($con,$query) or mysqli_error();
+        $result = mysqli_query($con,$query) or mysqli_error($con);
         $this->close();
         return $result;
         }
