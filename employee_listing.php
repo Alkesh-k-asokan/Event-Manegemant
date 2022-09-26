@@ -105,8 +105,7 @@ if (isset($_GET["status"])) {
                               echo '<td>'.$row['employee_phone'].'</td>';
                               echo '<td>'.$row['employee_designation'].'</td>';
                               $id=$row["employee_id"];
-                              //echo '<td class="menu-action"><a href=employee_edit.php?id='.$id.' data-original-title="edit" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-yellow vd_yellow"> <i class="fa fa-pencil"></i> </a> <a href=employee_delete_conformation.php?id='.$id.' data-original-title="delete" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-red vd_red"> <i class="fa fa-times"></i> </a></td>';
-                              echo '<td class="menu-action"><a href=employee_edit.php?id='.$id.' data-original-title="edit" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-yellow vd_yellow"> <i class="fa fa-pencil"></i> </a> <button onclick="confirmation()" data-original-title="delete" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-red vd_red"> <i class="fa fa-times"></i> </button></td>';
+                              echo '<td class="menu-action"><a href=employee_edit.php?id='.$id.' data-original-title="edit" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-yellow vd_yellow"> <i class="fa fa-pencil"></i> </a> <a href=employee_delete_conformation.php?id='.$id.' data-original-title="delete" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-red vd_red"> <i class="fa fa-times"></i> </a></td>';
                               echo '</tr>';
                             }
                             ?>
@@ -163,16 +162,6 @@ include('view/footer.php');
 				$('#data-tables').dataTable();
 		} );
 </script>
-
-  <script>
-    function confirmation(){
-      var result = confirm("Are you sure to delete?");
-      if(result){
-        console.log("Deleted")
-      }
-    }
-  </script>
-
 <!-- Specific Page Scripts END -->
 </body>
 

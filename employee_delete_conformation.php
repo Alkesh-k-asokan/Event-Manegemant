@@ -73,7 +73,7 @@ if (isset($_GET["status"]) && $_GET["status"]=='200') {
                 <h5> Please confirm the deletion of the employee <b > <?=$row['employee_name'];?></b> with employee ID <b> <?=$row['employee_id'];?></b>?</h5>
                 <div class="mgbt-xs-10">
                   <a href="employee_delete_conformation.php?id=<?=$employee_id?>&status=200" class="btn vd_btn vd_bg-red btn-lg ">Yes, Delete</a>
-                  <a href="employee_listing.php?status=501" class="btn vd_btn vd_bg-green btn-lg ">No, Confirm</a>
+                  <a href="employee_listing.php?status=501" class="btn vd_btn vd_bg-green btn-lg ">No, Cancel</a>
                 </div>
               </div>
             </div>
