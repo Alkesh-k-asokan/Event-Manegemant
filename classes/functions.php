@@ -43,7 +43,7 @@ if (isset($_POST["submit"]) == "submit-employee-create" && $_SERVER["REQUEST_MET
   }
 }
 
-//creating employee
+//creating event
 if (isset($_POST["submit-event-create"]) == "submit-event-create" && $_SERVER["REQUEST_METHOD"] == "POST") {
   $event_name = $event_type = $event_date = $event_description = $event_points = $select_query = $result = $row = NULL;
   $db = new DB();
@@ -117,3 +117,48 @@ if (isset($_POST["submit-team-create"]) == "submit-team-create" && $_SERVER["REQ
     }
   }
  }
+
+
+ //employee edit
+ if (isset($_POST["submit"]) == "submit-employee-edit-conform" && $_SERVER["REQUEST_METHOD"] == "POST") {
+  $name = $email = $flag = $row =  $phone = $sec_phone = $designation = $blood_group = $address = $company = NULL;
+  $db = new DB();
+  $flag = true;
+  // getting variable values
+  $employee_id = $_POST['employee_id'];
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $phone = $_POST['phone'];
+  $sec_phone = $_POST['sec_phone'];
+  $designation = $_POST['designation'];
+  $blood_group = $_POST['blood_group'];
+  $address = $_POST['address'];
+  $company = $_POST['company'];
+
+  // checking for duplicate email and phone number
+  $select_query_1 = " SELECT  `employee_id`, `employee_email_id` FROM `event_management`.`employee` WHERE `employee_email_id` = '$email'; ";
+  $result = $db->executeQuery($select_query_1);
+
+  $select_query_2 = " SELECT  `employee_id`,`employee_phone` FROM `event_management`.`employee` WHERE `employee_phone` = '$phone'; ";
+  $result_2 = $db->executeQuery($select_query_2);
+  
+
+  if (mysqli_num_rows($result)>1) {
+    header("location: ../employee_listing.php?status=448");
+  }
+  if (mysqli_num_rows($result_2)>1) {
+    header("location: ../employee_listing.php?status=449");
+  }
+
+
+  if ($flag == true) {
+    // executing the insert query
+    $sql = "UPDATE `event_management`.`employee` SET `employee_name`='$name', `employee_email_id`='$email', `employee_address`='$address', `employee_phone`='$phone', `employee_sec_phone`='$sec_phone', `employee_designation`='$designation', `employee_blood_group`='$blood_group',`employee_company_id`='$company' WHERE  `employee_id`= $employee_id";
+    $stmt = $db->executeQuery($sql);
+    if ($stmt == 1)
+      header("location: ../employee_listing.php?status=200");
+    else {
+      header("location: ../employee_listing.php?status=417");
+    }
+  }
+}

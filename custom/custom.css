@@ -45,3 +45,8 @@ header .vd_top-nav .vd_panel-header .logo a {
 .navbar-tabs-menu {
 	margin-left: 0px !important;
 }
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;       /* Footer height */
+}
