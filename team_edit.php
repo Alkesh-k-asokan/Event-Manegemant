@@ -1,8 +1,8 @@
 <?php
 
 $event_type = $status = NULL;
-
 require_once "classes/db.php";
+
 $db = new DB();
 $sql = "SELECT  `employee_id`,`employee_name` FROM `event_management`.`employee` WHERE `employee`.`employee_id` NOT IN (SELECT `employee_id` FROM `event_management`.`team_members`) ";
 $result = $db->executeQuery($sql);

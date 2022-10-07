@@ -5,22 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f1a7541-f6c8-415c-8041-8154402335e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/team_edit.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin_dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin_dashboard.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/constants.php" beforeDir="false" afterPath="$PROJECT_DIR$/classes/constants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/db.php" beforeDir="false" afterPath="$PROJECT_DIR$/classes/db.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/employee_create.php" beforeDir="false" afterPath="$PROJECT_DIR$/employee_create.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/employee_delete_conformation.php" beforeDir="false" afterPath="$PROJECT_DIR$/employee_delete_conformation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/employee_edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/employee_edit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/employee_listing.php" beforeDir="false" afterPath="$PROJECT_DIR$/employee_listing.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/event_create.php" beforeDir="false" afterPath="$PROJECT_DIR$/event_create.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index-log in.php" beforeDir="false" afterPath="$PROJECT_DIR$/index-log in.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logout_page.php" beforeDir="false" afterPath="$PROJECT_DIR$/logout_page.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages-forget-password.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages-forget-password.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/team_create.php" beforeDir="false" afterPath="$PROJECT_DIR$/team_create.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/team_listing.php" beforeDir="false" afterPath="$PROJECT_DIR$/team_listing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/classes/functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/team_edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/team_edit.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +69,7 @@
       <workItem from="1664711052901" duration="507000" />
       <workItem from="1664773037576" duration="5087000" />
       <workItem from="1664862607105" duration="8358000" />
-      <workItem from="1665118716983" duration="3779000" />
+      <workItem from="1665118716983" duration="3998000" />
     </task>
     <servers />
   </component>
