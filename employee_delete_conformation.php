@@ -25,7 +25,7 @@ if (isset($_GET["status"]) && $_GET["status"]=='200') {
 
 <head>
   <meta charset="utf-8" />
-  <title>Form Validation - Responsive Multipurpose Admin Templates | Vendroid</title>
+  <title>Employee Delete Conformation</title>
   <meta name="keywords" content="HTML5 Template, CSS3, Mega Menu, Admin Template, Elegant HTML Theme, Vendroid, Form Validation " />
   <meta name="description" content="Form Validation  - Responsive Admin HTML Template">
   <meta name="author" content="Venmond">

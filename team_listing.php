@@ -33,7 +33,7 @@ if (isset($_GET["status"])) {
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
   <meta charset="utf-8" />
-  <title>Data Tables HTML Template - Responsive Multipurpose Admin Templates | Vendroid</title>
+  <title>Team Listing</title>
   <meta name="keywords" content="HTML5 Template, CSS3, All Purpose Admin Template, Vendroid" />
   <meta name="description" content="Data Tables - Responsive Admin HTML Template">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">       
@@ -158,7 +158,6 @@ include('view/footer.php');
 <script type="text/javascript">
 		$(document).ready(function() {
 				"use strict";
-				
 				$('#data-tables').dataTable();
 		} );
 </script>

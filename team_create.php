@@ -29,9 +29,9 @@ if (isset($_GET["status"])) {
 
 <head>
   <meta charset="utf-8" />
-  <title>Form Validation - Responsive Multipurpose Admin Templates | Vendroid</title>
+  <title>Team Create</title>
   <meta name="keywords" content="HTML5 Template, CSS3, Mega Menu, Admin Template, Elegant HTML Theme, Vendroid, Form Validation " />
-  <meta name="description" content="Form Validation  - Responsive Admin HTML Template">
+  <meta name="description" content="Employee Create">
   <meta name="author" content="Venmond">
   <!-- Set the viewport width to device width for mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

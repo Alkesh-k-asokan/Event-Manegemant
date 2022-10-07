@@ -17,8 +17,9 @@ class DB {
     }
 
     function connect(){
-        $con = mysqli_connect( $this->host, $this->username, $this->password, $this->db); 
-		return $con;  
+        $con = mysqli_connect( $this->host, $this->username, $this->password, $this->db);
+        return $con;
+
     }
 
     function close(){

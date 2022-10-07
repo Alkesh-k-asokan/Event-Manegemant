@@ -1,12 +1,17 @@
 <?php
+
+$event_type = $status = NULL;
+
 require_once "classes/db.php";
 $db = new DB();
-if (isset($_GET["id"])) {
-  $employee_id =  $_GET["id"];
-  $sql = "SELECT  * FROM `event_management`.`employee` WHERE `employee_id` = $employee_id";
-  $result = $db->executeQuery($sql);
-  $row = mysqli_fetch_array($result);
-}
+$sql = "SELECT  `employee_id`,`employee_name` FROM `event_management`.`employee` WHERE `employee`.`employee_id` NOT IN (SELECT `employee_id` FROM `event_management`.`team_members`) ";
+$result = $db->executeQuery($sql);
+
+$sql_1 = "SELECT * FROM `event_management`.`team` WHERE `team`.`team_id`";
+$result_1 = $db->executeQuery($sql_1);
+$row = mysqli_fetch_array($result_1);
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,12 +19,14 @@ if (isset($_GET["id"])) {
 
 <head>
   <meta charset="utf-8" />
-  <title>Employee Edit</title>
+  <title>Team Create</title>
   <meta name="keywords" content="HTML5 Template, CSS3, Mega Menu, Admin Template, Elegant HTML Theme, Vendroid, Form Validation " />
-  <meta name="description" content="Form Validation  - Responsive Admin HTML Template">
+  <meta name="description" content="Employee Create">
   <meta name="author" content="Venmond">
   <!-- Set the viewport width to device width for mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <?php
   include('view/header.php');
   ?>
@@ -39,7 +46,7 @@ if (isset($_GET["id"])) {
               <ul class="breadcrumb">
                 <li><a href="index.php">Home</a> </li>
                 <!-- <li><a href="forms-elements.html">Forms</a> </li> -->
-                <li class="active">Add New Employee </li>
+                <li class="active">Edit Team </li>
               </ul>
               <div class="vd_panel-menu hidden-sm hidden-xs" data-intro="<strong>Expand Control</strong><br/>To expand content page horizontally, vertically, or Both. If you just need one button just simply remove the other button code." data-step=5 data-position="left">
                 <div data-action="remove-navbar" data-original-title="Remove Navigation Bar Toggle" data-toggle="tooltip" data-placement="bottom" class="remove-navbar-button menu"> <i class="fa fa-arrows-h"></i> </div>
@@ -60,8 +67,8 @@ if (isset($_GET["id"])) {
             <div class="panel widget light-widget">
               <div class="panel-heading no-title"> </div>
               <div class="panel-body">
-                <h2 class="mgbt-xs-20">Edit Employee</h2>
-                <form class="form-horizontal" action="classes/functions.php" method="POST" role="form" id="register-form-2">
+                <h2 class="mgbt-xs-20">Edit Team</h2>
+                <form class="form-horizontal" action="classes/functions.php" method="POST" role="form" id="register-form-event-creation">
 
                   <div class="alert alert-danger vd_hidden">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="icon-cross"></i></button>
@@ -71,100 +78,62 @@ if (isset($_GET["id"])) {
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="icon-cross"></i></button>
                     <span class="vd_alert-icon"><i class="fa fa-check-circle vd_green"></i></span><strong>Well done!</strong>.
                   </div>
-                  <div class="form-group">
-                    <div class="col-md-6">
+                    <div class="form-group">
+                    <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Employee ID<span class="vd_red">*</span></label>
+                        <label class="control-label">Team ID<span class="vd_red">*</span></label>
                       </div>
-                      <div class="vd_input-wrapper" id="first-name-input-wrapper"> <span class="menu-icon"> <i class="fa fa-user"></i> </span>
-                        <input type="text" value="<?php echo $row['employee_id']?>" placeholder="Enter your Name" class="required" required name="name" id="employee_id" disabled >
+                      <div class="controls">
+                        <input disabled type="text" value="<?php echo $row['team_id']?>" name="team-id" id="team-id">
                       </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-md-6">
-                      <div class="label-wrapper">
-                        <label class="control-label">Name<span class="vd_red">*</span></label>
-                      </div>
-                      <div class="vd_input-wrapper" id="first-name-input-wrapper"> <span class="menu-icon"> <i class="fa fa-user"></i> </span>
-                        <input type="text" value="<?php echo $row['employee_name']?>" placeholder="Enter your Name" class="required" required name="name" id="name"  >
-                      </div>
                     </div>
-                    <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Phone Number<span class="vd_red">*</span></label>
+                        <label class="control-label">Team Name<span class="vd_red">*</span></label>
                       </div>
-                      <div class="vd_input-wrapper" id="last-name-input-wrapper"> <span class="menu-icon"> <i class="fa fa-user"></i> </span>
-                        <input type="text" value="<?php echo $row['employee_phone']?>" placeholder="enter along with country code" class="required" required name="phone" id="phone">
+                      <div class="controls">
+                        <input type="text" placeholder="Team Name" value="<?= $row['team_name']?>" class="required" required name="team-name" id="team-name">
+                        <!-- <span class="help-inline">Some hint here</span> -->
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <div class="col-md-5">
+                    <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Secondary Phone</label>
+                        <label class="control-label">Team Description<span class="vd_red">*</span></label>
                       </div>
-                      <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa fa-phone"></i> </span>
-                        <input type="text" value="<?php echo $row['employee_sec_phone']?>" placeholder="Enter you" class="" name="sec_phone" id="sec_phone">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="label-wrapper">
-                        <label class="control-label">Designation <span class="vd_red">*</span></label>
-                      </div>
-                      <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa fa-briefcase"></i> </span>
-                        <input type="text" value="<?php echo $row['employee_designation']?>" placeholder="Enter you Designation" class="required" required name="designation" id="designation">
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="label-wrapper">
-                        <label class="control-label">Blood Group <span class="vd_red">*</span></label>
-                      </div>
-                      <div class="vd_input-wrapper" id="country-code-input-wrapper"> <span class="menu-icon"> <i class="fa icon-droplet"></i> </span>
-                        <input type="text" value="<?php echo $row['employee_blood_group']?>" placeholder="Enter your Blood Group" class="required" required name="blood_group" id="blood_group">
+                      <div class="controls">
+                        <textarea rows="3" class="width-100 required" required name="team-description" id="team-description"><?= $row['team_description']?></textarea>
                       </div>
                     </div>
                   </div>
+
                   <div class="form-group">
                     <div class="col-md-12">
                       <div class="label-wrapper">
-                        <label class="control-label">Address <span class="vd_red">*</span></label>
+                        <label class="control-label">Add New Team Members<span class="vd_red">*</span></label>
                       </div>
-                      <div class="vd_input-wrapper" id="website-input-wrapper"> <span class="menu-icon"> <i class="fa fa-home"></i> </span>
-                        <input type="text" value="<?php echo $row['employee_address']?>" placeholder="Enter your Home Address" class="" name="address" id="address">
-                      </div>
+                      <select class="width-100 select required" required multiple="multiple" name="team-members[]" id="team-members">
+                        <?php
+                        while ($row = mysqli_fetch_array($result)) {
+                          echo '<option value =' . $row['employee_id'] . '>' . $row['employee_name'] . '</option>';
+                        }
+                        ?>
+                      </select>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="col-md-12">
-                      <div class="label-wrapper">
-                        <label class="control-label">Email <span class="vd_red">*</span></label>
-                      </div>
-                      <div class="vd_input-wrapper" id="email-input-wrapper"> <span class="menu-icon"> <i class="fa fa-envelope"></i> </span>
-                        <input type="email" value="<?php echo $row['employee_email_id']?>" placeholder="Email" class="required" required name="email" id="email">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-md-12">
-                      <div class="label-wrapper">
-                        <label class="control-label">Company Name</label>
-                      </div>
-                      <div class="vd_input-wrapper" id="company-input-wrapper"> <span class="menu-icon"> <i class="fa fa-briefcase"></i> </span>
-                        <input type="text" Value ="StartAgile" placeholder="Default value is StratAgile" class="required" value="StratAgile" name="company" id="company">
-                      </div>
-                    </div>
-                  </div>
+
                   <div id="vd_login-error" class="alert alert-danger hidden"><i class="fa fa-exclamation-circle fa-fw"></i> Please fill the necessary field </div>
-                  <div><?= $result_msg; ?></div>
+<!--                  <div>--><?php //= $result_msg; ?><!--</div>-->
                   <div class="form-group">
                     <div class="col-md-12 mgbt-xs-5">
-                      <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit" value="submit-employee-edit-conform">Save Changes</button>
-                      <a class="btn vd_bg-green vd_white" href="employee_listing.php?status=500" id="submit" name="submit" value="submit-employee-edit-discard">Discard Changes</a>
+                      <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit-team-edit" value="submit-team-edit">Update Team</button>
                     </div>
-                    <div class="col-md-12 mgbt-xs-5"></div>
-                  </div>
+                    <div class="col-md-12 mgbt-xs-5">
+                    </div>
                 </form>
               </div>
             </div>
@@ -366,9 +335,14 @@ if (isset($_GET["id"])) {
       });
 
 
+      $('.width-100.select.required').select2({
+        placeholder: 'Select Team members'
+      });
+
     });
   </script>
-
+  <script type="text/javascript" src="js/date-picker.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 
 </html>

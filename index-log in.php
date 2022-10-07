@@ -54,7 +54,7 @@ if (isset($_POST["login"]) == "submit" && $_SERVER["REQUEST_METHOD"] == "POST") 
 
 <head>
   <meta charset="utf-8" />
-  <title>Login Pages HTML Template - Responsive Multipurpose Admin Templates | Vendroid</title>
+  <title>Login Pages</title>
   <meta name="keywords" content="HTML5 Template, CSS3, All Purpose Admin Template, Vendroid" />
   <meta name="description" content="Login Pages - Responsive Admin HTML Template">
   <meta name="author" content="Venmond">
