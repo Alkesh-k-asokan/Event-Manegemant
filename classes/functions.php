@@ -162,12 +162,12 @@ if (isset($_POST["submit"]) == "submit-employee-edit-conform" && $_SERVER["REQUE
   }
 }
 
-//creating a team and adding members to it
+//editing team and adding new members to it
 if (isset($_POST["submit-team-edit"]) == "submit-team-edit" && $_SERVER["REQUEST_METHOD"] == "POST") {
   $db = new DB();
   $team_name = $team_description = $sql = NULL;
 
-
+  $team_id = $_POST['team-id'];
   $team_name = $_POST['team-name'];
   $team_description = $_POST['team-description'];
   if(isset($_POST['team-members'])){
@@ -177,34 +177,28 @@ if (isset($_POST["submit-team-edit"]) == "submit-team-edit" && $_SERVER["REQUEST
   //checking for duplicate teams
   $select_query = "SELECT  `team_name` FROM `event_management`.`team` WHERE `team_name` LIKE '$team_name'";
   $result = $db->executeQuery($select_query);
-  if (mysqli_num_rows($result)!=0) {
-    header("location: ../team_create.php?status=448");
+  if (mysqli_num_rows($result)>1) {
+    header("location: ../team_listing.php?status=448");
   }
   else{
 
     //inserting into the table
-    $sql = "INSERT INTO `event_management`.`team` (`team_name`, `team_description`) VALUES ('$team_name', '$team_description')";
+    $sql = "UPDATE `event_management`.`team` SET `team_name`='$team_name', `team_description`='$team_description' WHERE  `team_id`= $team_id";
     $stmt = $db->executeQuery($sql);
-    if ($stmt == 1) {
 
-      //getting the team id
-      $select_query2 = "SELECT `team_id` FROM `event_management`.`team` WHERE `team_name` = '$team_name'";
-      $result2 = $db->executeQuery($select_query2);
-      $row = mysqli_fetch_array($result2);
-      $team_id = $row['team_id'];
-
-      if (mysqli_num_rows($result2)!=0){
-        foreach ($team_members as $member) {
-          echo $member . "<br/>";
-          $sql2 = "INSERT INTO `event_management`.`team_members` (`team_id`, `employee_id`) VALUES ('$team_id', 'team_description')";
-          $stmt1 = $db->executeQuery($sql2);
-          if ($stmt1 != 1)
-            header("location: ../team_create.php?status=450");
-        }
-      }
+    if(isset($team_members)){
+    foreach ($team_members as $member) {
+      echo $member . "<br/>";
+      $sql2 = "INSERT INTO `event_management`.`team_members` (`team_id`, `employee_id`) VALUES ('$team_id', 'team_description')";
+      $stmt1 = $db->executeQuery($sql2);
+      if ($stmt1 != 1)
+        header("location: ../team_listing.php?status=450");
+    }
+      if ($stmt1 == 1 or $stmt == 1)
+        header("location: ../team_listing.php?status=200");
 
     }else{
-      header("location: ../team_create.php?status=417");
+      header("location: ../team_listing.php?status=417");
     }
   }
 }

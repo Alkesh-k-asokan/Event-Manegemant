@@ -116,7 +116,7 @@ $row = mysqli_fetch_array($result_1);
                       <div class="label-wrapper">
                         <label class="control-label">Add New Team Members<span class="vd_red">*</span></label>
                       </div>
-                      <select class="width-100 select required" required multiple="multiple" name="team-members[]" id="team-members">
+                      <select class="width-100 select " multiple="multiple" name="team-members[]" id="team-members">
                         <?php
                         while ($row = mysqli_fetch_array($result)) {
                           echo '<option value =' . $row['employee_id'] . '>' . $row['employee_name'] . '</option>';
@@ -131,7 +131,8 @@ $row = mysqli_fetch_array($result_1);
                   <div class="form-group">
                     <div class="col-md-12 mgbt-xs-5">
                       <button class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit-team-edit" value="submit-team-edit">Update Team</button>
-                    </div>
+                      <a href="team_listing.php?status=500" class="btn vd_bg-green vd_white" type="submit" id="submit" name="submit-team-edit" value="submit-team-edit">Discard Changes</a>
+                  </div>
                     <div class="col-md-12 mgbt-xs-5">
                     </div>
                 </form>
@@ -335,7 +336,7 @@ $row = mysqli_fetch_array($result_1);
       });
 
 
-      $('.width-100.select.required').select2({
+      $('.width-100.select').select2({
         placeholder: 'Select Team members'
       });
 

@@ -8,21 +8,15 @@ $result_msg = NULL;
 if (isset($_GET["status"])) {
   $status = $_GET["status"];
   if ($status == '200') {
-    $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;The employee have been updated' . ' </div>';
+    $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;The Team have been updated' . ' </div>';
   } elseif ($status == '417') {
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Employee edit failed.' . ' </div>';
-  } elseif ($status == '449') {
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Phone number already exists for another employee.' . ' </div>';
+    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The Team edit failed.' . ' </div>';
+  } elseif ($status == '450') {
+    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Adding New Member has been failed.' . ' </div>';
   } elseif ($status == '448') {
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Email already exists for another employee.' . ' </div>';
-  }elseif ($status == '500') {
+    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The name already exist.' . ' </div>';
+  } elseif ($status == '500') {
     $result_msg = '<div id="vd_login-error" class="alert alert-warning"><i class="fa fa-exclamation-triangle vd_yellow"></i>' . '&nbsp;&nbsp;Changes Discarded' . ' </div>';
-  } elseif ($status == '501') {
-    $result_msg = '<div id="vd_login-error" class="alert alert-warning"><i class="fa fa-exclamation-triangle vd_yellow"></i>' . '&nbsp;&nbsp;Deletion Cancelled' . ' </div>';
-  } elseif ($status == '502') {
-    $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;Deleted Successfully' . ' </div>';
-  } elseif ($status == '503') {
-    $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Delete Failed.' . ' </div>';
   }
   $status = NULL;
 }
@@ -83,7 +77,7 @@ if (isset($_GET["status"])) {
               <div class="col-md-12">
                 <div class="panel widget">
                   <div class="panel-heading vd_bg-grey">
-                    <h3 class="panel-title">Employees</h3>
+                    <h3 class="panel-title">Team</h3>
                   </div>
                   <div><?= $result_msg; ?></div>
                   <div class="panel-body table-responsive">

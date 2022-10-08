@@ -15,7 +15,7 @@ if (isset($_GET["status"])) {
     $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Phone number already exists for another employee.' . ' </div>';
   } elseif ($status == '448') {
     $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;Email already exists for another employee.' . ' </div>';
-  }elseif ($status == '500') {
+  } elseif ($status == '500') {
     $result_msg = '<div id="vd_login-error" class="alert alert-warning"><i class="fa fa-exclamation-triangle vd_yellow"></i>' . '&nbsp;&nbsp;Changes Discarded' . ' </div>';
   } elseif ($status == '501') {
     $result_msg = '<div id="vd_login-error" class="alert alert-warning"><i class="fa fa-exclamation-triangle vd_yellow"></i>' . '&nbsp;&nbsp;Deletion Cancelled' . ' </div>';
