@@ -1,4 +1,10 @@
 <?php
+
+// Error Printing Snippet
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once "db.php";
 $db =  $sql = NULL;
 
@@ -104,8 +110,7 @@ if (isset($_POST["submit-team-create"]) == "submit-team-create" && $_SERVER["REQ
 
     if (mysqli_num_rows($result2)!=0){
       foreach ($team_members as $member) {
-        echo $member . "<br/>";
-        $sql2 = "INSERT INTO `event_management`.`team_members` (`team_id`, `employee_id`) VALUES ('$team_id', 'team_description')";
+        $sql2 = "INSERT INTO `event_management`.`team_members` (`team_id`, `employee_id`) VALUES ('$team_id', '$member')";
         $stmt1 = $db->executeQuery($sql2);
         if ($stmt1 != 1)
           header("location: ../team_create.php?status=450");
@@ -165,7 +170,7 @@ if (isset($_POST["submit"]) == "submit-employee-edit-conform" && $_SERVER["REQUE
 //editing team and adding new members to it
 if (isset($_POST["submit-team-edit"]) == "submit-team-edit" && $_SERVER["REQUEST_METHOD"] == "POST") {
   $db = new DB();
-  $team_name = $team_description = $sql = NULL;
+  $team_name = $team_description = $sql = $team_id = NULL;
 
   $team_id = $_POST['team-id'];
   $team_name = $_POST['team-name'];
@@ -188,15 +193,13 @@ if (isset($_POST["submit-team-edit"]) == "submit-team-edit" && $_SERVER["REQUEST
 
     if(isset($team_members)){
     foreach ($team_members as $member) {
-      echo $member . "<br/>";
-      $sql2 = "INSERT INTO `event_management`.`team_members` (`team_id`, `employee_id`) VALUES ('$team_id', 'team_description')";
+      $sql2 = "INSERT INTO `event_management`.`team_members` (`team_id`, `employee_id`) VALUES ('$team_id', '$member')";
       $stmt1 = $db->executeQuery($sql2);
+    }
       if ($stmt1 != 1)
         header("location: ../team_listing.php?status=450");
-    }
-      if ($stmt1 == 1 or $stmt == 1)
-        header("location: ../team_listing.php?status=200");
-
+    }elseif($stmt1 == 1 or $stmt == 1) {
+      header("location: ../team_listing.php?status=200");
     }else{
       header("location: ../team_listing.php?status=417");
     }

@@ -4,6 +4,32 @@ $db = new DB();
 $sql = "SELECT  * FROM `event_management`.`team`";
 $result = $db->executeQuery($sql);
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_GET["id"]) && isset($_GET["conformation"])){
+  $id = $_GET["id"];
+  $conformation = $_GET["conformation"];
+
+  if($conformation == 'true'){
+      $sql_delete_members = "DELETE FROM `event_management`.`team_members` WHERE `team_members`.`team_id`=$id";
+      $stmt_1 = $db->executeQuery($sql_delete_members);
+      if($stmt_1 == 1) {
+        $sql_delete = "DELETE FROM `event_management`.`team` WHERE `team`.`team_id`=$id";
+        $stmt = $db->executeQuery($sql_delete);
+        if ($stmt == 1) {
+          header("location: team_listing.php?status=501");
+        } else {
+          header("location: team_listing.php?status=502");
+        }
+      } else {
+        header("location: team_listing.php?status=502");
+      }
+  }
+
+}
+
 $result_msg = NULL;
 if (isset($_GET["status"])) {
   $status = $_GET["status"];
@@ -16,8 +42,14 @@ if (isset($_GET["status"])) {
   } elseif ($status == '448') {
     $result_msg = '<div id="vd_login-error" class="alert alert-danger"><i class="fa fa-exclamation-circle fa-fw"></i>' . '&nbsp;&nbsp;The name already exist.' . ' </div>';
   } elseif ($status == '500') {
-    $result_msg = '<div id="vd_login-error" class="alert alert-warning"><i class="fa fa-exclamation-triangle vd_yellow"></i>' . '&nbsp;&nbsp;Changes Discarded' . ' </div>';
+    $result_msg = '<div id="vd_login-error" class="alert alert-warning"><i class="fa fa-exclamation-triangle vd_yellow"></i>' . '&nbsp;&nbsp;Changes Discarded.' . ' </div>';
+  } elseif ($status == '501') {
+    $result_msg = '<div class="alert alert-success"><i class="fa fa-check-circle vd_green"></i>' . '&nbsp;&nbsp;The Team have been deleted.' . ' </div>';
+  } elseif ($status == '502') {
+    $result_msg = '<div id="vd_login-error" class="alert alert-warning"><i class="fa fa-exclamation-triangle vd_yellow"></i>' . '&nbsp;&nbsp;The Tea, Deletion failed.' . ' </div>';
   }
+
+
   $status = NULL;
 }
 ?>
@@ -91,18 +123,21 @@ if (isset($_GET["status"])) {
                         </tr>
                       </thead>
                       <tbody>
-                        <?php
-                      while ($row = mysqli_fetch_array($result)) {
-                              $id = NULL;
-                              echo '<tr class="odd gradeX">';
-                              echo '<td>'.$row['team_name'].'</td>';
-                              echo '<td>'.$row['team_description'].'</td>';
-                              echo '<td>'.$row['team_total_points'].'</td>';
-                              $id=$row["team_id"];
-                              echo '<td class="menu-action"><a data-original-title="view" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-green vd_green"> <i class="fa fa-eye"></i> </a> <a data-original-title="Add Members" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-yellow vd_yellow"> <i class="fa fa-plus"></i> </a> <a href=team_edit.php?id='.$id.' data-original-title="edit" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-yellow vd_yellow"> <i class="fa fa-pencil"></i> </a> <a href=team_delete_conformation.php?id='.$id.' data-original-title="delete" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-red vd_red"> <i class="fa fa-times"></i> </a></td>';
-                              echo '</tr>';
-                            }
-                            ?>
+                      <?php
+                        while ($row = mysqli_fetch_array($result)) {
+                          $id = NULL;
+                          echo '<tr class="odd gradeX">';
+                          echo '<td>'.$row['team_name'].'</td>';
+                          echo '<td>'.$row['team_description'].'</td>';
+                          echo '<td>'.$row['team_total_points'].'</td>';
+                          $id=$row["team_id"];
+                          echo '<td class="menu-action">
+                                <a data-original-title="view" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-green vd_green"> <i class="fa fa-eye"></i> </a> 
+                                <a data-original-title="Add Members" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-yellow vd_yellow"> <i class="fa fa-plus"></i> </a> 
+                                <a href=team_edit.php?id='.$id.'  data-original-title="edit" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-yellow vd_yellow"> <i class="fa fa-pencil"></i> </a> 
+                                <a  onclick="team_delete_conformation('.$id.');"  data-original-title="delete" data-toggle="tooltip" data-placement="top" class="btn menu-icon vd_bd-red vd_red"> <i class="fa fa-times"></i> </a></td>';
+                          echo '</tr>';
+                            } ?>
                       </tbody>
                     </table>
                   </div>
@@ -154,6 +189,14 @@ include('view/footer.php');
 				"use strict";
 				$('#data-tables').dataTable();
 		} );
+
+        function team_delete_conformation(id) {
+            var result = confirm("Proceed With the Deletion?\nThis action cannot be undone!");
+            if (result) {
+                window.location.href = "team_listing.php?id=<?= $id ?>&conformation=true";
+            }
+        }
+
 </script>
 <!-- Specific Page Scripts END -->
 </body>

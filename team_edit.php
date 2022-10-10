@@ -1,4 +1,5 @@
 <?php
+$team_id= NULL;
 
 $event_type = $status = NULL;
 require_once "classes/db.php";
@@ -6,11 +7,12 @@ require_once "classes/db.php";
 $db = new DB();
 $sql = "SELECT  `employee_id`,`employee_name` FROM `event_management`.`employee` WHERE `employee`.`employee_id` NOT IN (SELECT `employee_id` FROM `event_management`.`team_members`) ";
 $result = $db->executeQuery($sql);
-
-$sql_1 = "SELECT * FROM `event_management`.`team` WHERE `team`.`team_id`";
-$result_1 = $db->executeQuery($sql_1);
-$row = mysqli_fetch_array($result_1);
-
+if (isset($_GET["id"])) {
+  $team_id = $_GET["id"];
+  $sql_1 = "SELECT * FROM `event_management`.`team` WHERE `team`.`team_id` = $team_id";
+  $result_1 = $db->executeQuery($sql_1);
+  $row = mysqli_fetch_array($result_1);
+}
 
 ?>
 <!DOCTYPE html>
@@ -79,12 +81,12 @@ $row = mysqli_fetch_array($result_1);
                     <span class="vd_alert-icon"><i class="fa fa-check-circle vd_green"></i></span><strong>Well done!</strong>.
                   </div>
                     <div class="form-group">
-                    <div class="col-md-12">
+                    <div class="col-md-12" hidden>
                       <div class="label-wrapper">
                         <label class="control-label">Team ID<span class="vd_red">*</span></label>
                       </div>
                       <div class="controls">
-                        <input disabled type="text" value="<?php echo $row['team_id']?>" name="team-id" id="team-id">
+                        <input  type="text" value="<?php echo $row['team_id']?>" name="team-id" id="team-id">
                       </div>
                     </div>
                     </div>
