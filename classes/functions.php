@@ -205,3 +205,4 @@ if (isset($_POST["submit-team-edit"]) == "submit-team-edit" && $_SERVER["REQUEST
     }
   }
 }
+
